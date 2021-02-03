@@ -1,0 +1,179 @@
+<?php
+// Include config file
+require_once "config.php";
+ 
+// Define variables and initialize with empty values
+$name = $price = $prodesc = $qty = $category = $pimage = "";
+$name_err = $price_err = $prodesc_err = $qty_err = $category_err = $pimage_err = "";
+ 
+// Processing form data when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    // Validate name
+    $input_name = trim($_POST["name"]);
+    if(empty($input_name)){
+        $name_err = "Please enter a name.";
+    } elseif(!filter_var($input_name, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
+        $name_err = "Please enter a valid name.";
+    } else{
+        $name = $input_name;
+    }
+     // Validate price
+    $input_price = trim($_POST["price"]);
+    if(empty($input_price)){
+        $price_err = "Please enter the product price.";     
+    } elseif(!ctype_digit($input_price)){
+        $price_err = "Please enter a positive integer value.";
+    } else{
+        $price = $input_price;
+    }
+		
+    // Validate product description 
+    $input_prodesc = trim($_POST["prodesc"]);
+    if(empty($input_prodesc)){
+        $prodesc_err = "Please enter an product description .";     
+    } else{
+        $prodesc = $input_prodesc;
+    }
+    
+    // Validate Quantity
+    $input_qty = trim($_POST["qty"]);
+    if(empty($input_qty)){
+        $qty_err = "Please enter the Quantity.";     
+    } elseif(!ctype_digit($input_qty)){
+        $qty_err = "Please enter a positive integer value.";
+    } else{
+        $qty = $input_qty;
+    }
+	
+	 // Validate category	 
+	$input_category = trim($_POST["category"]);
+    if(empty($input_category)){
+        $category_err = "Please select the category .";     
+    } else{
+        $category = $input_category;
+    }
+	
+	// Validate product image 
+    $input_pimage = trim($_POST["pimage"]);
+    if(empty($input_pimage)){
+        $pimage_err = "Please select the product image .";     
+    } else{
+        $pimage = $input_pimage;
+    }
+	
+    // Check input errors before inserting in database
+    if(empty($name_err) && empty($price_err) && empty($prodesc_err) && empty($qty_err) && empty($category_err) && empty($pimage_err)){
+        // Prepare an insert statement
+        $sql = "INSERT INTO farmer_product (name, price, prodesc, qty, category, pimage) VALUES (?, ?, ?, ?, ?, ?)";
+         
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "ssssss", $param_name, $param_price, $param_prodesc, $param_qty, $param_category, $param_pimage);
+            
+            // Set parameters
+            $param_name = $name;
+			$param_price = $price;
+            $param_prodesc = $prodesc;
+            $param_qty = $qty;
+			$param_category = $category;
+			$param_pimage = $pimage;
+            
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                // Records created successfully. Redirect to landing page
+                header("location: farmer_product.php");
+                exit();
+            } else{
+                echo "Something went wrong. Please try again later.";
+            }
+        }
+         
+        // Close statement
+        //mysqli_stmt_close($stmt);
+    }
+    
+    // Close connection
+    mysqli_close($link);
+}
+?>
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Record</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <style type="text/css">
+        .wrapper{
+            width: 500px;
+            margin: 0 auto;
+            background-color: rgba(179, 85, 207, 0.295);
+            border-radius: 25px;
+            margin-top: 20px;
+            padding: 6px;
+            margin-bottom: 40px;
+        }
+        body{
+            background-image: url("lf1.jpg");
+            font-size: 15px;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-header">
+                        <h2>Create Record</h2>
+                    </div>
+                    <p>Please fill this form and submit to add product record to the database.</p>
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                        <div class="form-group <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
+                            <label>Name</label>
+                            <input type="text" name="name" class="form-control" value="<?php echo $name; ?>">
+                            <span class="help-block"><?php echo $name_err;?></span>
+                        </div>
+						<div class="form-group <?php echo (!empty($price_err)) ? 'has-error' : ''; ?>">
+                            <label>Price</label>
+                            <input type="text" name="price" class="form-control" value="<?php echo $price; ?>">
+                            <span class="help-block"><?php echo $price_err;?></span>
+                        </div>
+                        <div class="form-group <?php echo (!empty($prodesc_err)) ? 'has-error' : ''; ?>">
+                            <label>product description </label>
+                            <textarea name="prodesc" class="form-control"><?php echo $prodesc; ?></textarea>
+                            <span class="help-block"><?php echo $prodesc_err;?></span>
+                        </div>
+                        <div class="form-group <?php echo (!empty($qty_err)) ? 'has-error' : ''; ?>">
+                            <label>Quantity</label>
+                            <input type="text" name="qty" class="form-control" value="<?php echo $qty; ?>">
+                            <span class="help-block"><?php echo $qty_err;?></span>
+                        </div>
+						<div class="form-group <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
+                            <label>Category</label>
+							   <select name="category" class="form-control" value="<?php echo $category; ?>">
+								  <option value="">Select...</option>
+								  <option value="Fruits">Fruits</option>
+								  <option value="Vegetable">Vegetable</option>
+								  <option value="Grain">Grain</option>
+								</select>
+                            <span class="help-block"><?php echo $category_err;?></span>
+                        </div>
+						<div class="form-group <?php echo (!empty($pimage_err)) ? 'has-error' : ''; ?>">
+                            <label>Product Image</label>
+                            <input type="file" name="pimage" class="form-control" value="<?php echo $pimage; ?>">
+                            <span class="help-block"><?php echo $pimage_err;?></span>
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Submit">
+                        <a href="farmer_product.php" class="btn btn-default">Cancel</a>
+                    </form>
+                </div>
+            </div>        
+        </div>
+    </div>
+    <?php
+    include 'footer.php';
+?>
+</body>
+</html>

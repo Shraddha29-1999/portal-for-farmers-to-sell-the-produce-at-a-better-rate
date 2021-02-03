@@ -1,0 +1,148 @@
+body {
+    font-family: 'Ubuntu', sans-serif;
+    color: rgb(14, 13, 13);
+    margin: 0px;
+    padding: 0px;
+    background-image: url('https://cdn.pixabay.com/photo/2016/11/29/01/31/cereal-1866559_960_720.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 30px;
+    background-size: 500x 500px;
+    opacity: 1px;
+    height: 600px;
+}
+
+.left {
+    position: absolute;
+    left: 20px;
+    top: 9px;
+    /* border: 2px solid red; */
+    display: inline-block;
+    left: 60px;
+    top: 20px;
+
+}
+
+.left img {
+    width: 50px;
+}
+
+.left div {
+    text-align: center;
+}
+
+.mid {
+
+    display: block;
+    margin: 50px auto;
+    /* border: 2px solid green; */
+    width: -100px;
+    padding-left: 330px;
+
+
+}
+
+.right {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    /* border: 2px solid greenyellow; */
+    display: inline-block;
+}
+
+.navbar {
+    display: block;
+}
+
+.navbar li {
+    display: inline-block;
+    font-size: 20px;
+
+
+}
+
+.navbar li a {
+    color: white;
+    padding: 20px 20px;
+    text-decoration: none;
+}
+
+.navbar li a:hover,
+.navbar li a.active {
+    text-decoration: underline;
+    color: rgb(248, 157, 82);
+}
+
+.btn {
+    margin-left: 150px;
+    margin: 9px, 9px;
+    background-color:rgba(235, 108, 23, 0.507);
+    color: rgb(14, 12, 12);
+    padding: 4px 14px;
+    border-radius: 13px;
+    font-size: 20px;
+    cursor: pointerl;
+    
+
+}
+
+.btn:hover {
+    background-color: rgba(229, 233, 13, 0.397);
+}
+
+.container {
+    float: left;
+    border: 2px solid white;
+    margin-top: 3px;
+    margin: 100px 90px;
+    padding: 50px;
+    width: 25%;
+    border-radius: 28px;
+
+
+}
+
+.f1 {
+    color: black;
+    text-align: center;
+    display: block;
+    width: 508px;
+    padding: 1px;
+    margin: 11px auto;
+    font-size: 25px;
+    border-radius: 8px;
+    size: 200px;
+    top: 3px;
+}
+
+.container h1 {
+
+    text-align: center;
+}
+
+.container button {
+    display: block;
+    width: 74;
+    margin: 20px auto;
+
+}
+
+.infouser input {
+    width: 340px;
+    height: 30px;
+
+}
+.container-2{
+    float: right;
+    margin-right: 180px;
+    margin-top: 150px;
+    padding: -500px;
+    background-color: rgba(250, 233, 2, 0.295);
+    border-radius: 16px;
+}
+.text{
+    font-size: 50px;
+    font-family: serif;
+    padding: 5px;
+}
+
